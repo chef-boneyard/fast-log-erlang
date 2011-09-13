@@ -45,6 +45,12 @@
 -record(state, {name,
                 log_handle}).
 
+%% example LogConfig:
+%% [{name, erchef},
+%%  {file, "log/erchef.log"},
+%%  {files, 5},
+%%  {file_size, 50}]
+
 start_link(LogConfig) ->
     Name = proplists:get_value(name, LogConfig),
     {ok, Pid} = gen_event:start_link({local, Name}),
@@ -99,7 +105,8 @@ init([LogConfig]) ->
     MinLogLevel = proplists:get_value(log_level, LogConfig, ?LOG_DEBUG),
     _Tid = ets:new(Name, [public, named_table]),
     fast_log_util:put_config(Name, #config{min_log=MinLogLevel}),
-    {ok, LogHandle} = fast_log_writer:open(Name, FileName, FileCount, FileSize),
+    {ok, LogHandle} = fast_log_writer:open(atom_to_list(Name), FileName, FileCount,
+                                           FileSize),
     {ok, #state{name=Name, log_handle=LogHandle}}.
 
 handle_event({LogLevel, Msg}, #state{log_handle=LogHandle}=State) ->
@@ -160,7 +167,7 @@ maybe_check(Name, CheckProb, Config, Overloaded) when CheckProb >= 0.7 ->
             Current;
         true ->
             Config1 = Config#config{overloaded=Current},
-            fast_log_uutil:put_config(Name, Config1),
+            fast_log_util:put_config(Name, Config1),
             Current
     end;
 maybe_check(_Name, _CheckProb, _Config, _Overloaded) ->
