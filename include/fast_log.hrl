@@ -1,3 +1,8 @@
+%% -*- erlang-indent-level: 4;indent-tabs-mode: nil; fill-column: 92 -*-
+%% ex: ts=4 sw=4 et
+%% @author Kevin Smith <kevin@opscode.com>
+%% @copyright Copyright 2011 Opscode Inc.
+
 -include_lib("kernel/src/disk_log.hrl").
 
 -type calendar_time() :: { non_neg_integer(),  non_neg_integer(),  non_neg_integer() }.
