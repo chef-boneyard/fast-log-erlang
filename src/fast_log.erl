@@ -190,7 +190,9 @@ maybe_check(_Name, _CheckProb, _Config, _Overloaded) ->
 %% Args}' and an appropriate call to `io_lib:format(Fmt, Args)' will be made on your behalf
 %% (a bill will be sent to your process' mailbox). The order of the input proplist is
 %% preserved. You can also request pretty-print style formatting (no newlines) by passing
-%% `{raw, Term}'.
+%% `{raw, Term}'. Finally, keys and values that are empty are replaced with
+%% "fast_log_empty_string". Not handled are keys/values that contain the log format
+%% delimiters `;' and `='.
 plist2iolist([{_Key, _Val} | _Rest]=PList) ->
     plist2iolist(PList, []).
 
@@ -204,6 +206,8 @@ plist2iolist([], [<<"; ">>|Acc]) ->
 %% term()}' will be formated using `"~256P"'.
 as_io(X) when is_atom(X) ->
     erlang:atom_to_binary(X, utf8);
+as_io(X) when X =:= ""; X =:= <<"">> ->
+    <<"fast_log_empty_string">>;
 as_io(X) when is_binary(X); is_list(X) ->
     X;
 as_io(X) when is_integer(X) ->
