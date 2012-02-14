@@ -214,6 +214,8 @@ as_io(X) when is_integer(X) ->
     integer_to_list(X);
 as_io(X) when is_float(X) ->
     io_lib:format("~f", [X]);
+as_io(X) when is_pid(X) orelse is_reference(X) ->
+    io_lib:format("~p", [X]);
 as_io({raw, X}) ->
     %% this is last-ditch effort, but may give acceptable results.
     io_lib:format("~256P", [X, 100]);
