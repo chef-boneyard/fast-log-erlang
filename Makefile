@@ -1,7 +1,7 @@
 ## DEPS = deps/foo deps/bar
 DEPS =
 
-all: compile eunit
+all: compile eunit dialyzer
 
 clean:
 	@rebar clean
@@ -12,6 +12,8 @@ distclean:
 
 compile: $(DEPS)
 	@rebar compile
+
+dialyzer:
 	@dialyzer -Wrace_conditions -Wunderspecs -r ebin
 
 $(DEPS):
