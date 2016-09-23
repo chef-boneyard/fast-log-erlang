@@ -1,14 +1,12 @@
 # fast_log
 
-This is the repository for fast_log, a logging library used for chef.
+This is the repository for fast_log, a logging library previously used in the chef-server. The Chef server now uses lager <https://github.com/basho/lager>
 
 Chef is a system integration framework written in erlang and ruby and designed to bring the benefits of configuration management to your entire infrastructure.
 
 The Chef Docs site is the definitive source of user documentation. <https://docs.chef.io/>
 
-This README focuses on developers who want to modify Chef source code. For users who just want to run the latest and greatest Chef development version in their environment, see:
-
-[TODO: add URL when available for erlang chef build process]
+This README focuses on developers who want to modify Chef source code. For users who just want to run the latest and greatest Chef development version in their environment, see: <https://www.chef.io/>
 
 ## Development
 
